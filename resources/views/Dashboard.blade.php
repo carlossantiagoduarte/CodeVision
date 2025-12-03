@@ -109,19 +109,32 @@
             <button class="btn-search">Buscar</button>
         </div>
 
-        <div class="filters">
+<div class="filters">
             <select>
                 <option>Todas las categorías</option>
             </select>
             <select>
                 <option>Cualquier fecha</option>
             </select>
-            <select>
-                <option>Todos los lugares</option>
-            </select>
-            <!-- Botones de administración -->
-            <div class="new-event">
-                <button class="btn-search">Crear evento</button>
+
+<div class="new-event" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                
+                <a href="{{ route('events.create') }}" class="btn-search" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
+                    + Crear Evento
+                </a>
+
+                <a href="{{ route('teams.create') }}" class="btn-search" style="text-decoration: none; background-color: #2d3748; display: flex; align-items: center; justify-content: center;">
+                    👥 Crear Equipo
+                </a>
+
+                <a href="{{ route('teams.join') }}" class="btn-search" style="text-decoration: none; background-color: #4a5568; display: flex; align-items: center; justify-content: center;">
+                    🔗 Unirse
+                </a>
+
+                <a href="{{ route('teams.index') }}" class="btn-search" style="text-decoration: none; background-color: #3182ce; display: flex; align-items: center; justify-content: center;">
+                    📋 Mis Equipos
+                </a>
+
             </div>
         </div>
     </section>
