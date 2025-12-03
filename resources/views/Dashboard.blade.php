@@ -133,52 +133,48 @@
             <a href="#" class="view-all">Ver todos los eventos →</a>
         </div>
 
-        <div class="events-grid">
+       <div class="events-grid">
 
-            <!-- Card 1 -->
+    @if($events->count() > 0)
+
+        @foreach($events as $event)
+        
             <div class="event-card">
-                <a href="evento.html" class="card-link"></a>
-                <img src="../images/evento1.jpeg" class="event-img" />
-                <div class="event-info">
-                    <p class="event-date">📅 15 Oct, 2023 - 20:00 hrs</p>
-                    <h3 class="event-title">InnovaTecNM</h3>
-                    <p class="event-description">
-                        Programa de innovación tecnológica, emprendimiento y desarrollo de proyectos creativos...
+                <a href="#" class="card-link"></a>
+
+                <img src="{{ $event->image_url ?? asset('images/default-event.jpg') }}" 
+                     class="event-img" 
+                     alt="{{ $event->title }}"
+                     onerror="this.src='{{ asset('images/logo.png') }}'"> <div class="event-info">
+                    <p class="event-date">
+                        📅 {{ \Carbon\Carbon::parse($event->start_date)->format('d M, Y') }} 
+                        - {{ \Carbon\Carbon::parse($event->start_time)->format('H:i') }} hrs
                     </p>
-                    <p class="event-location">📍 ITO Campus Central</p>
+
+                    <h3 class="event-title">{{ $event->title }}</h3>
+
+                    <p class="event-description">
+                        {{ \Illuminate\Support\Str::limit($event->description, 100) }}
+                    </p>
+
+                    <p class="event-location">📍 {{ $event->location }}</p>
+                    
+                    <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                        Organiza: {{ $event->organizer }}
+                    </p>
                 </div>
             </div>
 
-            <!-- Card 2 -->
-            <div class="event-card">
-                <a href="evento.html" class="card-link"></a>
-                <img src="../images/evento2.jpeg" class="event-img" />
-                <div class="event-info">
-                    <p class="event-date">📅 22 Oct, 2023 - 09:00 hrs</p>
-                    <h3 class="event-title">HackaTec</h3>
-                    <p class="event-description">
-                        Certamen donde los participantes resuelven desafíos tecnológicos...
-                    </p>
-                    <p class="event-location">📍 Plaza de la Tecnología</p>
-
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="event-card">
-                <a href="evento.html" class="card-link"></a>
-                <img src="../images/evento3.jpeg" class="event-img" />
-                <div class="event-info">
-                    <p class="event-date">📅 5 Nov, 2023 - 16:00 hrs</p>
-                    <h3 class="event-title">Oaxaca Emprende</h3>
-                    <p class="event-description">
-                        Evento que reúne proyectos innovadores de diversas universidades...
-                    </p>
-                    <p class="event-location">📍 Auditorio Principal</p>
-                </div>
-            </div>
-
+        @endforeach
+    
+    @else
+        <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+            <h3>No hay eventos próximos 😢</h3>
+            <p>¡Sé el primero en crear uno!</p>
         </div>
+    @endif
+
+</div>
     </section>
 
     <!-- FOOTER -->
