@@ -222,12 +222,12 @@
 
         cancelBtn1.addEventListener('click', resetForm);
         cancelBtn2.addEventListener('click', resetForm);
-
-        // Evitar recargar al enviar
+        
         form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            alert('Evento guardado correctamente!');
-        });
+    if(!confirm("¿Deseas guardar este evento?")){
+        e.preventDefault();
+    }
+});
     </script>
 
 
