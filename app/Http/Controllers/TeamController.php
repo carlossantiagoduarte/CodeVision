@@ -105,4 +105,24 @@ class TeamController extends Controller
 
         return redirect()->route('dashboard')->with('status', '¡Te has unido al equipo ' . $team->name . ' correctamente!');
     }
+    // 5. Mostrar la lista de "Mis Equipos"
+    public function myTeams()
+    {
+        $user = Auth::user();
+
+        // A) Equipos donde soy el LÍDER (creados por mí)
+        $ownedTeams = Team::where('user_id', $user->id)->get();
+
+        // B) Equipos donde soy MIEMBRO (me uní con código)
+        // Hacemos un "Join" para obtener los datos del equipo buscando por mi email
+        $joinedTeams = Team::join('team_members', 'teams.id', '=', 'team_members.team_id')
+                            ->where('team_members.email', $user->email)
+                            ->select('teams.*') // Queremos los datos del equipo, no del miembro
+                            ->get();
+
+        // Fusionamos ambas listas
+        $allTeams = $ownedTeams->merge($joinedTeams);
+
+        return view('Dashboard.Equipos', compact('allTeams'));
+    }
 }
