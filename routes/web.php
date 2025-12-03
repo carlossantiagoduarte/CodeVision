@@ -57,6 +57,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Rutas para UNIRSE A EQUIPO
+    Route::get('/unirse-equipo', [TeamController::class, 'join'])->name('teams.join');
+    Route::post('/unirse-equipo', [TeamController::class, 'processJoin'])->name('teams.processJoin');
     // --- RUTAS PARA CREAR EQUIPOS (NUEVAS) ---
     
     // 1. Mostrar el formulario (acepta un ID de evento opcional)
