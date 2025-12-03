@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TeamController; // <--- IMPORTANTE: Importamos el controlador de equipos
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\EventController; 
+use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\EventController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,7 +40,13 @@ Route::get('login/google/callback', [GoogleAuthController::class, 'handleGoogleC
 // Ruta para el Dashboard (Solo usuarios verificados)
 Route::get('/dashboard', function () {
     $user = Auth::user();
-    return view('Dashboard', compact('user'));
+    
+    // 2. Traemos los eventos de la base de datos
+    $events = Event::latest()->get(); 
+
+    // 3. Enviamos TANTO al usuario COMO a los eventos ('events') a la vista
+    return view('Dashboard', compact('user', 'events'));
+
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // --- RUTAS PROTEGIDAS (Requieren inicio de sesión) ---
