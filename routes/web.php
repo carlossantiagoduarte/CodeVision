@@ -60,7 +60,9 @@ Route::middleware('auth')->group(function () {
     // Rutas para UNIRSE A EQUIPO
     Route::get('/unirse-equipo', [TeamController::class, 'join'])->name('teams.join');
     Route::post('/unirse-equipo', [TeamController::class, 'processJoin'])->name('teams.processJoin');
-    // --- RUTAS PARA CREAR EQUIPOS (NUEVAS) ---
+
+    // Ruta para ver MIS EQUIPOS
+    Route::get('/mis-equipos', [TeamController::class, 'myTeams'])->name('teams.index');
     
     // 1. Mostrar el formulario (acepta un ID de evento opcional)
     Route::get('/crear-equipo/{event_id?}', [TeamController::class, 'create'])->name('teams.create');
