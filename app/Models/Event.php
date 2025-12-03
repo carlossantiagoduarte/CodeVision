@@ -10,7 +10,7 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'user_id', // Importante para saber quién creó el evento
         'title',
         'organizer',
         'location',
@@ -25,26 +25,11 @@ class Event extends Model
         'documents_info',
         'start_time',
         'end_time',
-        'banner_url',
-        'modality',
-        'registration_link',
-        'main_category',
     ];
 
-public function organizerUser()
-{
-    return $this->belongsTo(User::class, 'user_id');
-}
-
-
-    public function categories()
+    // Relación: Un evento pertenece a un usuario
+    public function user()
     {
-        return $this->belongsToMany(Category::class, 'event_category');
+        return $this->belongsTo(User::class);
     }
-
-    public function teams()
-    {
-        return $this->hasMany(Team::class);
-    }
-    
 }
