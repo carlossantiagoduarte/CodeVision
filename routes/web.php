@@ -1,50 +1,62 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeamController; // <--- IMPORTANTE: Importamos el controlador de equipos
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Auth;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
+
 // Ruta para la página de inicio
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome');
+});
 
 // Ruta de logout
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-// Ruta para el login (usando la vista personalizada)
+// Rutas para el login y registro personalizadas
 Route::get('/login', function () {
-    return view('Inscription.login');  // Asegúrate de que la vista 'login.blade.php' esté en 'resources/views/Inscription'
+    return view('Inscription.login');
 })->name('login');
+
+Route::get('/register', function () {
+    return view('Inscription.register');
+})->name('register');
 
 // Rutas para la autenticación con Google
 Route::get('login/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('login/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->middleware('web');
 
-// Ruta para el registro (usando la vista personalizada)
-Route::get('/register', function () {
-    return view('Inscription.register');  // Asegúrate de que la vista 'register.blade.php' esté en 'resources/views/Inscription'
-})->name('register');
-
-// Ruta para el Dashboard, solo accesible para usuarios autenticados y verificados
+// Ruta para el Dashboard (Solo usuarios verificados)
 Route::get('/dashboard', function () {
-    $user = Auth::user();  // Obtener el usuario autenticado
-    return view('Dashboard', compact('user'));  // Pasa el usuario a la vista 'Dashboard'
+    $user = Auth::user();
+    return view('Dashboard', compact('user'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Rutas protegidas por autenticación para el perfil del usuario
+// --- RUTAS PROTEGIDAS (Requieren inicio de sesión) ---
 Route::middleware('auth')->group(function () {
-    // Ruta para editar el perfil (usando la vista personalizada)
+    
+    // Rutas de Perfil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-
-    // Ruta para actualizar el perfil
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-
-    // Ruta para eliminar el perfil
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // --- RUTAS PARA CREAR EQUIPOS (NUEVAS) ---
+    
+    // 1. Mostrar el formulario (acepta un ID de evento opcional)
+    Route::get('/crear-equipo/{event_id?}', [TeamController::class, 'create'])->name('teams.create');
+    
+    // 2. Recibir y guardar los datos del formulario en la BD
+    Route::post('/equipos', [TeamController::class, 'store'])->name('teams.store');
+
 });
 
-// Rutas de autenticación (Login y Register) si no usas Laravel Breeze o Laravel UI
-require __DIR__.'/auth.php';  // Asegúrate de que este archivo 'auth.php' esté presente y contenga las rutas de autenticación
+// Rutas de autenticación base de Laravel
+require __DIR__.'/auth.php';
