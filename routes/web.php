@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\Auth;
 
 // Ruta para la página de inicio
 Route::get('/', function () {
-    return view('welcome');  // Asegúrate de que esta vista esté en 'resources/views/welcome.blade.php'
-});
+    return view('welcome');
+})->name('welcome');
 
 // Ruta de logout
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
