@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use Illuminate\Support\Facades\Auth;
-
+use App\Http\Controllers\EventController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,9 +14,10 @@ use Illuminate\Support\Facades\Auth;
 */
 
 // Ruta para la página de inicio
+// Ruta para la página de inicio
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');  // <--- ¡ESTA ES LA PARTE QUE FALTA!
 
 // Ruta de logout
 Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
@@ -29,7 +30,8 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('Inscription.register');
 })->name('register');
-
+Route::get('/crear-evento', [EventController::class, 'create'])->name('events.create');
+Route::post('/eventos', [EventController::class, 'store'])->name('events.store');
 // Rutas para la autenticación con Google
 Route::get('login/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('login/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->middleware('web');
