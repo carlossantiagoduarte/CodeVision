@@ -50,47 +50,48 @@
         <div class="user-menu-container">
 
             <!-- NOMBRE DEL USUARIO -->
-            <div id="user-toggle" class="user-name">
-                Andrés López
+<div id="user-toggle" class="user-name">
+    {{ $user->name }} <!-- Mostrar nombre del usuario desde la base de datos -->
 
-                <!-- FLECHITA -->
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9" />
-                </svg>
-            </div>
+    <!-- FLECHITA -->
+    <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9" />
+    </svg>
+</div>
 
-            <!-- MENU -->
-            <div id="user-menu" class="dropdown">
+<!-- MENU -->
+<div id="user-menu" class="dropdown">
+    <a href="{{ route('dashboard') }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <path d="M3 9.5L12 3l9 6.5V21H3z" />
+        </svg>
+        Inicio
+    </a>
 
-                <a href="#">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M3 9.5L12 3l9 6.5V21H3z" />
-                    </svg>
-                    Inicio
-                </a>
+    <a href="{{ route('profile.edit') }}"> <!-- Enlace actualizado al perfil -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
+            stroke-linejoin="round">
+            <circle cx="12" cy="7" r="4" />
+            <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
+        </svg>
+        Perfil
+    </a>
 
-                <a href="#">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <circle cx="12" cy="7" r="4" />
-                        <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
-                    </svg>
-                    Perfil
-                </a>
-
-                <a href="#">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <polyline points="16 17 21 12 16 7" />
-                        <line x1="21" y1="12" x2="9" y2="12" />
-                    </svg>
-                    Cerrar sesión
-                </a>
-
-            </div>
+    <!-- Formulario de Logout -->
+    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+        @csrf  <!-- Asegura que la solicitud sea segura con un token CSRF -->
+        <a href="#" class="btn-search" onclick="this.closest('form').submit();" style="color: black; background-color: #FFFFFF; padding: 12px 18px; text-decoration: none; border-radius: 10px;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+            Cerrar sesión
+        </a>
+    </form>
+</div>
 
         </div>
 
