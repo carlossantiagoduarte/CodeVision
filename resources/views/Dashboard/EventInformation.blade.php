@@ -14,7 +14,6 @@
         href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Jomolhari&family=Kadwa:wght@400;700&display=swap"
         rel="stylesheet">
 
-
     <!-- SCRIPT DROPDOWN -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -49,51 +48,46 @@
 
         <div class="user-menu-container">
 
-            <!-- NOMBRE DEL USUARIO -->
-            <div id="user-toggle" class="user-name">
-                Andrés López
+            
 
-                <!-- FLECHITA -->
-                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
+        <div class="user-menu-container">
+            <div id="user-toggle" class="user-name">
+                {{ $user->name }} <!-- Mostrar nombre del usuario desde la base de datos -->
+                <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9" />
                 </svg>
             </div>
 
-            <!-- MENU -->
             <div id="user-menu" class="dropdown">
-
-                <a href="#">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
+                <a href="{{ route('dashboard') }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M3 9.5L12 3l9 6.5V21H3z" />
                     </svg>
                     Inicio
                 </a>
 
-                <a href="#">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
+                <a href="{{ route('profile.edit') }}">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="7" r="4" />
                         <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
                     </svg>
                     Perfil
                 </a>
 
-                <a href="#">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <polyline points="16 17 21 12 16 7" />
-                        <line x1="21" y1="12" x2="9" y2="12" />
-                    </svg>
-                    Cerrar sesión
-                </a>
-
+                <!-- Formulario de Logout -->
+                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    @csrf
+                    <a href="#" class="btn-search" onclick="this.closest('form').submit();" style="color: black; background-color: #FFFFFF; padding: 12px 18px; text-decoration: none; border-radius: 10px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" y1="12" x2="9" y2="12" />
+                        </svg>
+                        Cerrar sesión
+                    </a>
+                </form>
             </div>
-
         </div>
-
     </nav>
 
     <!-- HERO -->
@@ -113,42 +107,42 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Nombre del Evento</label>
-                            <input type="text" value="Hackatec 2025" disabled>
+                            <input type="text" value="{{ $event->title }}" disabled>
                         </div>
 
                         <div class="form-group">
                             <label>Organización</label>
-                            <input type="text" value="Instituto Tecnológico de Oaxaca" disabled>
+                            <input type="text" value="{{ $event->organizer }}" disabled>
                         </div>
 
                         <div class="form-group">
                             <label>Lugar</label>
-                            <input type="text" value="Auditorio principal ITO" disabled>
+                            <input type="text" value="{{ $event->location }}" disabled>
                         </div>
                     </div>
 
                     <label>Descripción</label>
-                    <textarea disabled>Evento de programación y ciberseguridad para estudiantes del Instituto Tecnológico de Oaxaca.</textarea>
+                    <textarea disabled>{{ $event->description }}</textarea>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Correo</label>
-                            <input type="email" value="eventos@itoaxaca.edu.mx" disabled>
+                            <input type="email" value="{{ $event->email }}" disabled>
                         </div>
 
                         <div class="form-group">
                             <label>Teléfono</label>
-                            <input type="text" value="+52 951 123 4567" disabled>
+                            <input type="text" value="{{ $event->phone }}" disabled>
                         </div>
 
                         <div class="form-group">
                             <label>Capacidad</label>
-                            <input type="number" value="250" disabled>
+                            <input type="number" value="{{ $event->max_participants }}" disabled>
                         </div>
                     </div>
 
                     <label>Requisitos</label>
-                    <textarea disabled>Laptop personal, conocimientos básicos de programación y registro previo.</textarea>
+                    <textarea disabled>{{ $event->requirements }}</textarea>
 
                     <div class="buttons">
                         <button type="button" id="editarBtn">Editar</button>
@@ -164,32 +158,32 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>Fecha Inicio</label>
-                            <input type="date" value="2025-03-20" disabled>
+                            <input type="date" value="{{ $event->start_date }}" disabled>
                         </div>
 
                         <div class="form-group">
                             <label>Fecha Fin</label>
-                            <input type="date" value="2025-03-22" disabled>
+                            <input type="date" value="{{ $event->end_date }}" disabled>
                         </div>
 
                         <div class="form-group">
                             <label>Imagen URL</label>
-                            <input type="url" value="https://ejemplo.com/hackatec.jpg" disabled>
+                            <input type="url" value="{{ $event->image_url }}" disabled>
                         </div>
                     </div>
 
                     <label>Documentos</label>
-                    <textarea disabled>Convocatoria oficial y formatos disponibles en la web.</textarea>
+                    <textarea disabled>{{ $event->documents_info }}</textarea>
 
                     <div class="form-row">
                         <div class="form-group">
                             <label>Hora Inicio</label>
-                            <input type="time" value="09:00" disabled>
+                            <input type="time" value="{{ $event->start_time }}" disabled>
                         </div>
 
                         <div class="form-group">
                             <label>Hora Fin</label>
-                            <input type="time" value="18:00" disabled>
+                            <input type="time" value="{{ $event->end_time }}" disabled>
                         </div>
                     </div>
 
