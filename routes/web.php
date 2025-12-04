@@ -1,5 +1,5 @@
 <?php
-
+ 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\EventController; 
