@@ -84,7 +84,12 @@ Route::get('/event/create', [EventController::class, 'create'])->name('event.cre
 Route::get('/event', [EventController::class, 'store'])->name('event.store');
 
 Route::get('/informacion_evento', function () {
-    return view('Dashboard.EventInformation'); // Asegúrate de que el nombre de la vista coincida
+    // 1. Obtén el evento (Ejemplo: el primer evento encontrado)
+    $event = Event::first(); // O usa otra lógica para obtener el evento
+
+    // 2. Pasa la variable a la vista
+    return view('Dashboard.EventInformation', compact('event')); 
+
 })->name('informacion.evento');
 
 // --- RUTAS DE AUTENTICACIÓN BASE DE LARAVEL ---
