@@ -10,10 +10,12 @@ class EventController extends Controller
 {
     // Mostrar el formulario
     public function create()
-    {
-        return view('Inscription.Newevent'); // Asegúrate que este sea el nombre correcto de tu archivo Blade
-    }
+{
+    $user = Auth::user(); // Obtener el usuario autenticado
 
+    // Pasar el usuario a la vista
+    return view('Inscription.Newevent', compact('user'));
+}
     // Guardar el evento en la BD
     public function store(Request $request)
     {
