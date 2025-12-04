@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Unirse a equipo | CodeVision</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('css/join-team.css') }}"> 
+    <link rel="stylesheet" href="{{ asset('styles/join-team.css') }}"> 
     <link href="https://fonts.googleapis.com/css2?family=Kadwa:wght@700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
