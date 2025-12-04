@@ -27,8 +27,6 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('Inscription.register');
 })->name('register');
-Route::get('/crear-evento', [EventController::class, 'create'])->name('events.create')->middleware('can:crear eventos');
-Route::post('/eventos', [EventController::class, 'store'])->name('events.store')->middleware('can:crear eventos'); // Protegemos el STORE también
 
 // Rutas para la autenticación con Google
 Route::get('login/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.login');
@@ -50,28 +48,33 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // Rutas para UNIRSE A EQUIPO
+    // Rutas de EVENTOS (Protegidas por permiso)
+    Route::get('/crear-evento', [EventController::class, 'create'])->name('events.create')->middleware('can:crear eventos');
+    Route::post('/eventos', [EventController::class, 'store'])->name('events.store')->middleware('can:crear eventos');
+    Route::get('/evento/editar', [EventController::class, 'editLast'])->name('events.edit.last')->middleware('can:crear eventos');
+    
+    // *******************************************************************
+    // 🛑 RUTA AÑADIDA: Detalle del evento (Carga EventInformation.blade.php)
+    // *******************************************************************
+    Route::get('/eventos/{event}', [EventController::class, 'show'])->name('events.show');
+
+
+    // Rutas de EQUIPOS
     Route::get('/unirse-equipo', [TeamController::class, 'join'])->name('teams.join');
     Route::post('/unirse-equipo', [TeamController::class, 'processJoin'])->name('teams.processJoin');
-
-    // Ruta para ver MIS EQUIPOS
     Route::get('/mis-equipos', [TeamController::class, 'myTeams'])->name('teams.index');
-    
-    // --- RUTAS PARA CREAR EQUIPOS ---
     Route::get('/crear-equipo/{event_id?}', [TeamController::class, 'create'])->name('teams.create');
     Route::post('/equipos', [TeamController::class, 'store'])->name('teams.store');
 
-    // Ruta para editar el último evento
-    Route::get('/evento/editar', [EventController::class, 'editLast'])->name('events.edit.last')->middleware('can:crear eventos'); // Protegemos con el permiso
-    
-    // Ruta para mostrar la vista Envio
+    // RUTA PARA EL ENVÍO DE PROYECTOS (Protegida por permiso)
     Route::get('/envio', function () {
         return view('Dashboard.Envio');
-    })->name('envio')->middleware('can:enviar proyecto'); // Protegemos con el permiso
+    })->name('envio')->middleware('can:enviar proyecto');
 
+    // RUTA DE CALIFICACIÓN (Protegida por permiso)
     Route::get('/calificar-equipo', [TeamController::class, 'calificarEquipo'])
         ->name('teams.calificar')
-        ->middleware('can:calificar'); // <-- CAMBIADO DE 'auth' A 'can:calificar'
+        ->middleware('can:calificar'); 
 });
 
 // Rutas de autenticación base de Laravel
