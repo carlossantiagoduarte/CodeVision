@@ -84,11 +84,13 @@ Route::get('/event/create', [EventController::class, 'create'])->name('event.cre
 Route::get('/event', [EventController::class, 'store'])->name('event.store');
 
 Route::get('/informacion_evento', function () {
-    // 1. Obtén el evento (Ejemplo: el primer evento encontrado)
-    $event = Event::first(); // O usa otra lógica para obtener el evento
+    // 1. Obtener los datos necesarios
+    $event = Event::first(); // Ejemplo: obtén el evento que necesitas mostrar.
+    $user = Auth::user(); // Obtener el usuario autenticado (la causa del error)
 
-    // 2. Pasa la variable a la vista
-    return view('Dashboard.EventInformation', compact('event')); 
+    // 2. Pasar ambas variables a la vista
+    return view('Dashboard.EventInformation', compact('event', 'user'));
+    // compact('event', 'user') es lo mismo que ['event' => $event, 'user' => $user]
 
 })->name('informacion.evento');
 
