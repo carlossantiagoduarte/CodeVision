@@ -123,23 +123,6 @@
                     + Crear Evento
                 </a>
 
-                <a href="{{ route('events.edit.last') }}" class="btn-search" style="text-decoration: none;  background-color: #acce31ff; display: flex; align-items: center; justify-content: center;">
-    👌 Editar Evento
-</a>
-
-
-                <a href="{{ route('teams.create') }}" class="btn-search" style="text-decoration: none; background-color: #2d3748; display: flex; align-items: center; justify-content: center;">
-                    👥 Crear Equipo
-                </a>
-
-                <a href="{{ route('teams.join') }}" class="btn-search" style="text-decoration: none; background-color: #4a5568; display: flex; align-items: center; justify-content: center;">
-                    🔗 Unirse
-                </a>
-
-                <a href="{{ route('teams.index') }}" class="btn-search" style="text-decoration: none; background-color: #3182ce; display: flex; align-items: center; justify-content: center;">
-                    📋 Mis Equipos
-                </a>
-
             </div>
         </div>
     </section>
@@ -154,43 +137,67 @@
        <div class="events-grid">
 
     @if($events->count() > 0)
+    @foreach($events as $event)
+        <div class="event-card">
+            <a href="#" class="card-link"></a>
+            
+            <img src="{{ $event->image_url ?? asset('images/default-event.jpg') }}" 
+                 class="event-img" 
+                 alt="{{ $event->title }}"
+                 onerror="this.src='{{ asset('images/logo.png') }}'">
+                 
+            <div class="event-info">
+                <p class="event-date">
+                    📅 {{ \Carbon\Carbon::parse($event->start_date)->format('d M, Y') }} 
+                    - {{ \Carbon\Carbon::parse($event->start_time)->format('H:i') }} hrs
+                </p>
 
-        @foreach($events as $event)
-        
-            <div class="event-card">
-                <a href="#" class="card-link"></a>
+                <h3 class="event-title">{{ $event->title }}</h3>
 
-                <img src="{{ $event->image_url ?? asset('images/default-event.jpg') }}" 
-                     class="event-img" 
-                     alt="{{ $event->title }}"
-                     onerror="this.src='{{ asset('images/logo.png') }}'"> <div class="event-info">
-                    <p class="event-date">
-                        📅 {{ \Carbon\Carbon::parse($event->start_date)->format('d M, Y') }} 
-                        - {{ \Carbon\Carbon::parse($event->start_time)->format('H:i') }} hrs
-                    </p>
+                <p class="event-description">
+                    {{ \Illuminate\Support\Str::limit($event->description, 100) }}
+                </p>
 
-                    <h3 class="event-title">{{ $event->title }}</h3>
-
-                    <p class="event-description">
-                        {{ \Illuminate\Support\Str::limit($event->description, 100) }}
-                    </p>
-
-                    <p class="event-location">📍 {{ $event->location }}</p>
-                    
-                    <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
-                        Organiza: {{ $event->organizer }}
-                    </p>
-                </div>
+                <p class="event-location">📍 {{ $event->location }}</p>
+                
+                <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">
+                    Organiza: {{ $event->organizer }}
+                </p>
             </div>
-
-        @endforeach
-    
-    @else
-        <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
-            <h3>No hay eventos próximos 😢</h3>
-            <p>¡Sé el primero en crear uno!</p>
         </div>
-    @endif
+    @endforeach
+@else
+    <div style="grid-column: 1 / -1; text-align: center; padding: 50px;">
+        <h3>No hay eventos próximos 😢</h3>
+        <p>¡Sé el primero en crear uno!</p>
+    </div>
+@endif
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // ✅ CAMBIA AQUÍ EL ESTADO DEL USUARIO
+        const TIENE_EQUIPO = false;  // Cambia a 'false' si el usuario NO tiene equipo
+
+        // Seleccionamos todas las tarjetas de eventos
+        const eventCards = document.querySelectorAll('.event-card');
+        
+        eventCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Prevenir el comportamiento por defecto del enlace
+                e.preventDefault();
+                
+                // Si el usuario tiene un equipo, redirigimos a "Mis Equipos"
+                if (TIENE_EQUIPO) {
+                    window.location.href = "{{ route('teams.index') }}";  // URL de Mis Equipos
+                } else {
+                    // Si no tiene equipo, lo redirigimos a "Unirse"
+                    window.location.href = "{{ route('teams.join') }}";  // URL de Unirse
+                }
+            });
+        });
+    });
+</script>
+
 
 </div>
     </section>
