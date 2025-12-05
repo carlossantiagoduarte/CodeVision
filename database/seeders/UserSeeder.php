@@ -13,27 +13,31 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Crear el usuario Admin
-        User::create([
+        // 1. Crear el usuario Admin y asignarle el rol
+        $admin = User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
-            'password' => Hash::make('password'), // Contraseña: password
+            'password' => Hash::make('password'),
         ]);
-        
+        $admin->assignRole('Admin');
+
         // 2. Crear el usuario Juez
-        User::create([
+        $juez = User::create([
             'name' => 'Juez Creador',
             'email' => 'juez@example.com',
-            'password' => Hash::make('password'), // Contraseña: password
+            'password' => Hash::make('password'),
         ]);
-        
+        $juez->assignRole('Juez');
+
         // 3. Crear el usuario Estudiante
-        User::create([
+        $estudiante = User::create([
             'name' => 'Estudiante Proy',
             'email' => 'estudiante@example.com',
-            'password' => Hash::make('password'), // Contraseña: password
+            'password' => Hash::make('password'),
         ]);
+        $estudiante->assignRole('Estudiante');
 
-        $this->command->info('Usuarios de prueba (Admin, Juez, Estudiante) creados con email y password: password.');
+        // Mensaje en consola
+        $this->command->info('Usuarios creados con roles asignados: Admin, Juez, Estudiante (password: password).');
     }
 }
