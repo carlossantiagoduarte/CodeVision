@@ -27,7 +27,7 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return view('Inscription.register');
 })->name('register');
-
+Route::get('/evento/editar-ultimo', [EventController::class, 'editLast'])->name('events.edit.last')->middleware('can:crear eventos');
 // Rutas para la autenticación con Google
 Route::get('login/google', [GoogleAuthController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('login/google/callback', [GoogleAuthController::class, 'handleGoogleCallback'])->middleware('web');
@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     // Rutas de EVENTOS (Protegidas por permiso)
     Route::get('/crear-evento', [EventController::class, 'create'])->name('events.create')->middleware('can:crear eventos');
     Route::post('/eventos', [EventController::class, 'store'])->name('events.store')->middleware('can:crear eventos');
-    Route::get('/evento/editar', [EventController::class, 'editLast'])->name('events.edit.last')->middleware('can:crear eventos');
+    Route::get('/evento/editar/{id}', [EventController::class, 'edit'])->name('events.edit')->middleware('can:crear eventos');
     
     // *******************************************************************
     // 🛑 RUTA AÑADIDA: Detalle del evento (Carga EventInformation.blade.php)
