@@ -41,10 +41,16 @@
     <nav class="navbar">
 
         <div class="navbar-left">
-            <!-- LOGO -->
-            <img src="../images/logo.png" class="logo">
-            <span class="site-title">CodeVision</span>
-        </div>
+    <!-- LOGO -->
+    <div class="logo-container" onclick="window.location='{{ route('dashboard') }}'" style="cursor: pointer;">
+        <img src="../images/logo.png" class="logo" alt="Logo">
+    </div>
+    
+    <!-- TÍTULO CODEVISION -->
+    <div class="site-title-container" onclick="window.location='{{ route('dashboard') }}'" style="cursor: pointer;">
+        <span class="site-title">CodeVision</span>
+    </div>
+</div>
 
         <div class="user-menu-container">
 
@@ -61,8 +67,7 @@
 
             <!-- MENU -->
             <div id="user-menu" class="dropdown">
-
-                <a href="#">
+                <a href="{{ route('dashboard') }}">
                     <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M3 9.5L12 3l9 6.5V21H3z" />
@@ -70,7 +75,7 @@
                     Inicio
                 </a>
 
-                <a href="#">
+                <a href="{{ route('profile.edit') }}"> <!-- Enlace actualizado al perfil -->
                     <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="7" r="4" />
@@ -79,16 +84,28 @@
                     Perfil
                 </a>
 
-                <a href="#">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-                        <polyline points="16 17 21 12 16 7" />
-                        <line x1="21" y1="12" x2="9" y2="12" />
+                <a href="{{ route('solicitudes') }}"> <!-- Enlace actualizado a las solicitudes -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M8 12l3 3 5-6" />
                     </svg>
-                    Cerrar sesión
+                    </svg>
+                    Solicitudes
                 </a>
 
+                <!-- Formulario de Logout -->
+                <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                    @csrf <!-- Asegura que la solicitud sea segura con un token CSRF -->
+                    <a href="#" class="btn-search" onclick="this.closest('form').submit();" style="color: black; background-color: #FFFFFF; padding: 12px 18px; text-decoration: none; border-radius: 10px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                            <polyline points="16 17 21 12 16 7" />
+                            <line x1="21" y1="12" x2="9" y2="12" />
+                        </svg>
+                        Cerrar sesión
+                    </a>
+                </form>
             </div>
 
         </div>
