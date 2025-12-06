@@ -41,10 +41,16 @@
     <nav class="navbar">
 
         <div class="navbar-left">
-            <!-- LOGO -->
-            <img src="../images/logo.png" class="logo">
-            <span class="site-title">CodeVision</span>
-        </div>
+    <!-- LOGO -->
+    <div class="logo-container" onclick="window.location='{{ route('dashboard') }}'" style="cursor: pointer;">
+        <img src="../images/logo.png" class="logo" alt="Logo">
+    </div>
+    
+    <!-- TÍTULO CODEVISION -->
+    <div class="site-title-container" onclick="window.location='{{ route('dashboard') }}'" style="cursor: pointer;">
+        <span class="site-title">CodeVision</span>
+    </div>
+</div>
 
         <div class="user-menu-container">
 
@@ -77,6 +83,16 @@
                         <path d="M5.5 21a6.5 6.5 0 0 1 13 0" />
                     </svg>
                     Perfil
+                </a>
+
+                <a href=""> <!-- Enlace actualizado a las solicitudes -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                        stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9" />
+                        <path d="M8 12l3 3 5-6" />
+                    </svg>
+                    </svg>
+                    Solicitudes
                 </a>
 
                 <a href="#">
